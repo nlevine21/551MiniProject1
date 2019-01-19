@@ -34,3 +34,23 @@ def preprocessText(data):
         for (word, count) in sorted_word_counts:
             fout.write('%s %d\n' % (word, count))
     fout.close()
+
+# Function that returns the word count vector feature for a given comment
+def getWordCountVector(comment):
+    # Get the list of the 160 most common words by obtaining the data from words.txt
+    word_list = []
+    with open('words.txt', 'r') as fin:
+        for i in range(160):
+            word_list.append(next(fin).strip().split()[0])
+    fin.close()
+
+    # Build a list with each word in the comment
+    comment = comment.lower()
+    words_in_comment = comment.split()
+
+    # Build a vector representing the counts for each of the 160 most common words in each comment
+    word_count_vector = []
+    for word in word_list:
+        word_count_vector.append(words_in_comment.count(word))
+    
+    return word_count_vector

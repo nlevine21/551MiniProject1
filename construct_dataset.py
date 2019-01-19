@@ -1,3 +1,4 @@
+from text_processing import getWordCountVector
 import numpy as np
 
 # This function takes in a list of raw JSON data and returns
@@ -26,7 +27,12 @@ def buildMatricies(raw_data):
         x_example_features.append(data_point["controversiality"])
         x_example_features.append(int(data_point["is_root"]))
 
-        # TEXT PROCESSING HAPPENS HERE
+        # Obtain word count vector
+        word_count_vector = getWordCountVector(data_point["text"])
+
+        # Place the counts for each word as an additional feature in the example
+        for count in word_count_vector:
+            x_example_features.append(count)
 
         # Add bias term
         x_example_features.append(1)

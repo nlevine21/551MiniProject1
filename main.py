@@ -14,3 +14,5 @@ test_data = data[11000:]
 X_training_data, Y_training_data = buildMatricies(training_data)
 X_validation_data, Y_validation_data = buildMatricies(validation_data)
 X_test_data, Y_test_data = buildMatricies(test_data)
+
+print (X_test_data[997])
