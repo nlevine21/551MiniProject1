@@ -1,4 +1,4 @@
-from proj1_data_loading import loadData, printDataPoint
+from proj1_data_loading import loadData
 from construct_dataset import buildMatricies
 import numpy as np
 
@@ -11,5 +11,6 @@ validation_data = data[10000:11000]
 test_data = data[11000:]
 
 # Build the X and Y matricies for the three splits of data
-buildMatricies(test_data)
-
+X_training_data, Y_training_data = buildMatricies(training_data)
+X_validation_data, Y_validation_data = buildMatricies(validation_data)
+X_test_data, Y_test_data = buildMatricies(test_data)

@@ -26,7 +26,7 @@ def buildMatricies(raw_data):
         x_example_features.append(data_point["controversiality"])
         x_example_features.append(int(data_point["is_root"]))
 
-        # TEXT PREPROCESSING HAPPENS HERE
+        # TEXT PROCESSING HAPPENS HERE
 
         # Add bias term
         x_example_features.append(1)
