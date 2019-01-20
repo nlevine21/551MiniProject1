@@ -1,9 +1,10 @@
 from text_processing import getWordCountVector
 import numpy as np
+import re
 
 # This function takes in a list of raw JSON data and returns
 # the X and Y matricies used in linear regression
-def buildMatricies(raw_data):
+def buildMatricies(raw_data, include_length, include_num_sentences):
 
     # Build Y first since it is just a vector containing popularity scores
     y_list = list(map(lambda data_point: data_point["popularity_score"], raw_data))
@@ -33,6 +34,23 @@ def buildMatricies(raw_data):
         # Place the counts for each word as an additional feature in the example
         for count in word_count_vector:
             x_example_features.append(count)
+        
+        # Add the length of the comment if requested
+        if include_length:
+            x_example_features.append(len(data_point["text"]))
+        
+        # Add the number of sentences if requested
+        if include_num_sentences:
+            # Get the list of sentences by separating by a sentence ending character
+            # We will say that a sentence must end with a '.', '!' or '?'
+            sentences = re.split("[.!?]", data_point["text"])
+
+            # Filter out any empty strings or white spaced strings in the sentences list
+            sentences = list(filter(lambda sentence: sentence.strip() != "", sentences))
+
+            ## Add the number of sentences as a feature
+            x_example_features.append(len(sentences))
+            
 
         # Add bias term
         x_example_features.append(1)
