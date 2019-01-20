@@ -24,7 +24,7 @@ def preprocessText(data):
         word_counts[unique_word] = word_list.count(unique_word)
     
     # Sort the most common words in descending order
-    sorted_word_counts = sorted(word_counts.iteritems(), key=lambda (k,v): (v,k), reverse=True)
+    sorted_word_counts = sorted(word_counts.iteritems(), key=lambda k,v: (v,k), reverse=True)
     
     # Only keep the 160 most common words
     sorted_word_counts = sorted_word_counts[:160]
