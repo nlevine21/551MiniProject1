@@ -12,7 +12,7 @@ include_num_sentences = True
 data = loadData()
 
 # Split the data into training, validation and test data according to specs
-training_data = data[:10000]
+training_data = data[:500] #CHANGE THIS TO A SMALL SUBSET FOR CHECKING COVNERGENCE AND STUFF
 validation_data = data[10000:11000]
 test_data = data[11000:]
 
@@ -50,7 +50,7 @@ print('Exact solution evaluated on validation data. \n Mean Absolute Error: {}\n
 
 
 eta_nod=1e-5
-beta=1
+beta=1e-5
 step_size=lambda k: eta_nod/(1+beta*k)
 max_iter=10000
 eps=1e-5
@@ -58,7 +58,7 @@ eps=1e-5
 w, grad_norms, conv_flag=myLinReg.gradient_descent(step_size, eps, max_iter)
 convString="Yes." if conv_flag==1 else "No."
 plt.figure()
-plt.plot(grad_norms)
+plt.plot(grad_norms[20:])
 plt.title('Gradient norm vs iteration, tolerance: {} \n Convergence: {} Gradient norm at end:{}'.format(eps, convString, grad_norms[-1]))
 print(conv_flag)
 

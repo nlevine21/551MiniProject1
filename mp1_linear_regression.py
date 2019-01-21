@@ -37,13 +37,14 @@ class LinearRegression:
         and the maximum number of iterations."""
         conv_flag=0
         w=np.random.rand(self.X.shape[1],self.Y.shape[1])
-        grad_norms=np.ones([max_iter+1,1])
+        grad_norms=-1*np.ones([max_iter+1,1])
         for iter in range(max_iter):
             temp=w;
             w=w-step_size(iter+1)*self.grad_e(w)
             grad_norms[iter+1]=np.linalg.norm(self.grad_e(w))
             if np.linalg.norm(w-temp)<tol:
                 conv_flag=1
+                grad_norms=grad_norms[grad_norms!=-1.]
                 break
             
         return w, grad_norms, conv_flag
