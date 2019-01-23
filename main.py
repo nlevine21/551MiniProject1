@@ -12,7 +12,7 @@ include_num_sentences = True
 data = loadData()
 
 # Split the data into training, validation and test data according to specs
-training_data = data[:500] #CHANGE THIS TO A SMALL SUBSET FOR CHECKING COVNERGENCE AND STUFF
+training_data = data[:10000] #CHANGE THIS TO A SMALL SUBSET FOR CHECKING COVNERGENCE AND STUFF
 validation_data = data[10000:11000]
 test_data = data[11000:]
 
@@ -36,43 +36,44 @@ w=myLinReg.exact_solution()
 w=myLinReg.exact_solution() #use exact solution
 
 Ytrain_pred=np.matmul(Xtrain,w)
-
-MAE=np.sum(np.abs(Ytrain_pred-Ytrain))/Ytrain.shape[0]
-MSE=np.sum(np.square(Ytrain_pred-Ytrain))/Ytrain.shape[0]
+N=Ytrain.shape[0] #number training example
+MAE=np.sum(np.abs(Ytrain_pred-Ytrain))/N
+MSE=np.sum(np.square(Ytrain_pred-Ytrain))/N
 print('Exact solution evaluated on training data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(MAE, MSE))
 
 Yval=np.asarray([Yval]).T
 Yval_pred=np.matmul(Xval,w)
-MAE=np.sum(np.abs(Yval_pred-Yval))/Yval.shape[0]
-MSE=np.sum(np.square(Yval_pred-Yval))/Yval.shape[0]
+N=Yval.shape[0] #number validation example
+MAE=np.sum(np.abs(Yval_pred-Yval))/N
+MSE=np.sum(np.square(Yval_pred-Yval))/N
 print('Exact solution evaluated on validation data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(MAE, MSE))
 
 
 
-eta_nod=1e-5
-beta=1e-5
+eta_nod=1e-2
+beta=1
 step_size=lambda k: eta_nod/(1+beta*k)
-max_iter=10000
+max_iter=1000
 eps=1e-5
 
 w, grad_norms, conv_flag=myLinReg.gradient_descent(step_size, eps, max_iter)
 convString="Yes." if conv_flag==1 else "No."
 plt.figure()
 plt.plot(grad_norms[20:])
-plt.title('Gradient norm vs iteration, tolerance: {} \n Convergence: {} Gradient norm at end:{}'.format(eps, convString, grad_norms[-1]))
+plt.title('Gradient norm vs iteration, tolerance: {0} \n Convergence: {1} Gradient norm at end:{2:9.3f}'.format(eps, convString, grad_norms[-1]))
 print(conv_flag)
 
 Ytrain_pred=np.matmul(Xtrain,w)
 
 MAE=np.sum(np.abs(Ytrain_pred-Ytrain))/Ytrain.shape[0]
 MSE=np.sum(np.square(Ytrain_pred-Ytrain))/Ytrain.shape[0]
-print('Gradient descent solution evaluated on training data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(MAE, MSE))
+print('Gradient descent solution evaluated on training data. \n Mean Absolute Error: {0:9.3f}\n Mean Square Error: {1:9.3f} \n'.format(MAE, MSE))
 
 Yval=np.asarray([Yval]).T
 Yval_pred=np.matmul(Xval,w)
 MAE=np.sum(np.abs(Yval_pred-Yval))/Yval.shape[0]
 MSE=np.sum(np.square(Yval_pred-Yval))/Yval.shape[0]
-print('Gradient descent solution evaluated on validation data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(MAE, MSE))
+print('Gradient descent solution evaluated on validation data. \n Mean Absolute Error: {0:9.3f}\n Mean Square Error: {1:9.3f} \n'.format(MAE, MSE))
 
 
 

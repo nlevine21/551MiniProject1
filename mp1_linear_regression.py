@@ -21,9 +21,10 @@ class LinearRegression:
         self.XtX=np.matmul(np.transpose(X),X)
         self.X=X;
         self.Y=Y;
+        self.N=Y.shape[0] #number training examples
     def grad_e(self, w):
         """Gradient of weights with respect to error. Returns N by 1 column matrix."""
-        return 2*(np.matmul(self.XtX, w)-np.matmul(np.transpose(self.X),self.Y))
+        return 2*(np.matmul(self.XtX, w)-np.matmul(np.transpose(self.X),self.Y))/self.N
     def exact_solution(self):
         """Computes the optimal weights for linear regression.
             Returns weights vector w, N by P, where N number features, P number variables to predict
@@ -34,7 +35,11 @@ class LinearRegression:
         return w
     def gradient_descent(self, step_size, tol, max_iter):
         """ Gradient descent, takes step_size (a function! that returns step size vs iteration)
-        and the maximum number of iterations."""
+        and the maximum number of iterations.
+        Outputs: 
+            w: weights. 
+            grad_norms: array, grad_norms[i] is the l2 norm of the gradient at iteration i. 
+            conv_flag: 1 if converged (gradient norm stays constant from one iteration to the next) and 0 if not. """
         conv_flag=0
         w=np.random.rand(self.X.shape[1],self.Y.shape[1])
         grad_norms=-1*np.ones([max_iter+1,1])
@@ -44,8 +49,7 @@ class LinearRegression:
             grad_norms[iter+1]=np.linalg.norm(self.grad_e(w))
             if np.linalg.norm(w-temp)<tol:
                 conv_flag=1
-                grad_norms=grad_norms[grad_norms!=-1.]
                 break
-            
+        grad_norms=grad_norms[grad_norms!=-1.]
         return w, grad_norms, conv_flag
     
