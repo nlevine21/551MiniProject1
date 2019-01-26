@@ -69,8 +69,10 @@ TASK 3
          Mean Square Error: 0.9697903909611976
 
       No models seem to be overfitting. Considering the average pop score is 0.864 and if our model just predicts 0.864 for every comment
-      then MAE: 0.7301422202557587 MSE:1.3059350993792627 on the validation set and MAE:0.07942795696701577 MSE:0.15953269313793017 on the training set.
+      then MAE: 0.73 MSE:1.31 on the validation set and MAE:0.07942795696701577 MSE:0.15953269313793017 on the training set.
       So all three (non constant) are more accurate than the constant model, so they are not underfitting either.
+
+
 
 
 

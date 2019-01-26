@@ -1,17 +1,20 @@
+import re
+
 from text_processing import getWordCountVector
 import numpy as np
-import re
+
+swear_words = ["shit","fuck","bitch","cunt","nigger","dick","ass","whore","cock","bastard","piss","moron","fag","faggot","cocksucker"]
+punctuation = [".","!","?",","]
 
 # This function takes in a list of raw JSON data and returns
 # the X and Y matricies used in linear regression
-def buildMatricies(raw_data, include_length, include_num_sentences):
-
+def buildMatricies(raw_data, include_length,include_num_sentences,number_of_frequent_words,include_hyperlinks,include_wordsentence_ratio,include_swear_ratio):
     # Build Y first since it is just a vector containing popularity scores
     y_list = list(map(lambda data_point: data_point["popularity_score"], raw_data))
-    
+
     # Next we will work towards build X
 
-    # Helper function to be used when performing mapping for the 
+    # Helper function to be used when performing mapping for the
     # X features
     def xMapper(data_point):
 
@@ -22,7 +25,7 @@ def buildMatricies(raw_data, include_length, include_num_sentences):
         # x3..xn-1 = text features
         # xn = 1 (bias term)
         x_example_features = []
-        
+
         # Add children, controversiality and is_root features
         x_example_features.append(data_point["children"])
         x_example_features.append(data_point["controversiality"])
@@ -31,14 +34,43 @@ def buildMatricies(raw_data, include_length, include_num_sentences):
         # Obtain word count vector
         word_count_vector = getWordCountVector(data_point["text"])
 
-        # Place the counts for each word as an additional feature in the example
+        #Place the counts for each word as an additional feature in the example JOSH'S EDIT FOR TESTING
         for count in word_count_vector:
+            if number_of_frequent_words<1:
+                break
             x_example_features.append(count)
-        
+            number_of_frequent_words=-1
+
+
+        # Add if includes hyperlink
+        if include_hyperlinks:
+            hyperlinks=0
+            if "(http://www." in data_point["text"]:
+                hyperlinks=1
+            x_example_features.append(hyperlinks)
+
+        # add words/sentences
+        if include_wordsentence_ratio:
+            sentences = re.split("[.!?]", data_point["text"])
+            sentences = list(filter(lambda sentence: sentence.strip() != "", sentences))
+            x_example_features.append(len(data_point["text"])/(1+len(sentences)))
+
+
         # Add the length of the comment if requested
         if include_length:
             x_example_features.append(len(data_point["text"]))
-        
+
+        # include number of swear words ratio
+        if include_swear_ratio:
+            swears = 0
+            for i in swears:
+                swears=+data_point["text"].count(i)
+            x_example_features.append(swears/len(data_point["text"]))
+
+        # include number of
+
+
+
         # Add the number of sentences if requested
         if include_num_sentences:
             # Get the list of sentences by separating by a sentence ending character
@@ -50,19 +82,17 @@ def buildMatricies(raw_data, include_length, include_num_sentences):
 
             ## Add the number of sentences as a feature
             x_example_features.append(len(sentences))
-            
 
         # Add bias term
         x_example_features.append(1)
 
         return x_example_features
-    
+
     x_list = list(map(xMapper, raw_data))
-    
+
     # We want X and Y to be represented as a numpy array instead of a python list to ease further computations
     X = np.asarray(x_list)
     Y = np.asarray(y_list)
-    
+
     return X, Y
-   
- 
+

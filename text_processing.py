@@ -11,7 +11,7 @@ def preprocessText(data):
     # Now we have a list where each element is a list of words that make up a comment
     word_list = list(map(lambda comment: comment.split(), comment_list))
 
-    # Flatten our 2d list into a regular list of words 
+    # Flatten our 2d list into a regular list of words
     word_list = [word for comment in word_list for word in comment]
 
     # Obtain a list of all unique words
@@ -22,10 +22,10 @@ def preprocessText(data):
 
     for unique_word in unique_word_list:
         word_counts[unique_word] = word_list.count(unique_word)
-    
+
     # Sort the most common words in descending order
-    sorted_word_counts = sorted(word_counts.iteritems(), key=lambda k,v: (v,k), reverse=True)
-    
+    sorted_word_counts = sorted(word_counts.iteritems(), key=lambda k, v: (v, k), reverse=True)
+
     # Only keep the 160 most common words
     sorted_word_counts = sorted_word_counts[:160]
 
@@ -34,6 +34,7 @@ def preprocessText(data):
         for (word, count) in sorted_word_counts:
             fout.write('%s %d\n' % (word, count))
     fout.close()
+
 
 # Function that returns the word count vector feature for a given comment
 def getWordCountVector(comment):
@@ -52,5 +53,5 @@ def getWordCountVector(comment):
     word_count_vector = []
     for word in word_list:
         word_count_vector.append(words_in_comment.count(word))
-    
+
     return word_count_vector
