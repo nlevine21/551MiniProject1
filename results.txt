@@ -1,0 +1,84 @@
+Notes:
+In the case where we are dealing with a really not smooth function the following does not really hold.
+ if we use | w_k+1 - w_k | < epsilon to determine when our gradient descent algorithm should terminate, we may run into th following problem:
+  if the step (aplha) is too small, | w_k+1 - w_k | will also be too small, small enough to terminate the algorithm early before we reach a good enough solution.
+
+ if we take the grad of w_k and it is very small, and we are close enough to the exact solution that the graph is really smooth:
+  either we are a really small step away and every small step the gradient should decrease fast,
+  otherwise there is still a lot of terrain to cover and the gradient will only decrease a little for every small step.
+
+
+TASK 3
+    preamble: because we are not dealing with too much data, we find that using the closed form solution to be faster to compute.
+
+    Q1:
+    Rutimes:
+    for this part I only used the 3 simple features. The calculated runtimes are an average over 1000 trials.
+    (B)closed form solution runtime: 0.00043 seconds
+    (B)grad descent runtime with step_function = 0.4/(1+0.01log(k)) and 600 iterations : 0.13 seconds
+    grad descent runtime with step_function = 0.7/(1+0.005k) and 600 iterations : 0.13 seconds
+
+    for this I included the 160 (most frequent) word features, calculated over 30 trials:
+    (A)closed form solution runtime: 1.9 seconds
+    (A)grad descent runtime with step_function = 0.052/(1+0.00001k) and 1000 iterations : 24 seconds
+
+    Performances:
+    160 (most frequent) words feature included
+    (A)
+    Exact solution evaluated on training data.
+    Mean Absolute Error: 0.6636850962753923
+    Mean Square Error: 1.0481408328953838
+
+    Exact solution evaluated on validation data.
+    Mean Absolute Error: 0.6517039580578083
+    Mean Square Error: 0.9977269917726341
+
+     Gradient descent solution evaluated on training data.
+     Mean Absolute Error:     0.665
+     Mean Square Error:     1.054
+
+     Gradient descent solution evaluated on validation data.
+     Mean Absolute Error:   0.65391
+     Mean Square Error:   1.00398
+
+     (B)
+     Exact solution evaluated on training data.
+     Mean Absolute Error: 0.6666680891120631
+     Mean Square Error: 1.0846830709157251
+
+     Exact solution evaluated on validation data.
+     Mean Absolute Error: 0.6481687081332577
+     Mean Square Error: 1.0203266848431447
+
+     Gradient descent solution evaluated on training data.
+     Mean Absolute Error:     0.667
+     Mean Square Error:     1.085
+
+     Gradient descent solution evaluated on validation data.
+     Mean Absolute Error:   0.64816
+     Mean Square Error:   1.02036
+
+     Q2
+     when including only 60 word features:
+         Exact solution evaluated on training data.
+         Mean Absolute Error: 0.6644350799542774
+         Mean Square Error: 1.0592186302868414
+
+         Exact solution evaluated on validation data.
+         Mean Absolute Error: 0.6386996897363663
+         Mean Square Error: 0.9697903909611976
+
+      No models seem to be overfitting. Considering the average pop score is 0.864 and if our model just predicts 0.864 for every comment
+      then MAE: 0.7301422202557587 MSE:1.3059350993792627 on the validation set and MAE:0.07942795696701577 MSE:0.15953269313793017 on the training set.
+      So all three (non constant) are more accurate than the constant model, so they are not underfitting either.
+
+
+
+
+
+
+
+
+
+
+
