@@ -58,6 +58,10 @@ TASK 3
      Mean Absolute Error:   0.64816
      Mean Square Error:   1.02036
 
+     Instability: The closed form algorithm never seems to fail, for only in the very unlikely case that a feature is linearly dependant
+        on another should the program crash when trying to invert a matrix. On the other hand, gradient descent can run into overflow errors
+        should the step function be too large. Otherwise, if we choose a good step function, the gradient descent method runs well with satisfying results.
+
      Q2
      when including only 60 word features:
          Exact solution evaluated on training data.
@@ -68,12 +72,20 @@ TASK 3
          Mean Absolute Error: 0.6386996897363663
          Mean Square Error: 0.9697903909611976
 
-      No models seem to be overfitting. Considering the average pop score is 0.864 and if our model just predicts 0.864 for every comment
+      No models seem to be very overfitting. As one can see, the 160 word model seems to be slightly more overfitting than the 60 word model.
+      Considering the average pop score is 0.864 and if our model just predicts 0.864 for every comment
       then MAE: 0.73 MSE:1.31 on the validation set and MAE:0.07942795696701577 MSE:0.15953269313793017 on the training set.
       So all three (non constant) are more accurate than the constant model, so they are not underfitting either.
 
+      Q3
+      Features that improve our model: words per sentence, # of swear words/# of words, and # of question marks.
+        These features improve our model slightly, by reducing the MSE by 1% in total of the validation adn training set.
+         One feature that significantly improves out model is if we add (#children)^2
+         this is most likely because of the fact that the number of children that a comment has is a strong indicator of how popular it is.
 
 
+
+        Q4 our final result gives us an MSE of 1.259819704497742 and a MAE of 0.7150770008235066
 
 
 

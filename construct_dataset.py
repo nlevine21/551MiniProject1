@@ -3,12 +3,13 @@ import re
 from text_processing import getWordCountVector
 import numpy as np
 
-swear_words = ["shit","fuck","bitch","cunt","nigger","dick","ass","whore","cock","bastard","piss","moron","fag","faggot","cocksucker"]
-punctuation = [".","!","?",","]
+swear_words = ["shit","fucking","fuck","bitch","cunt","nigger","dick","ass","whore","cock","bastard","piss","moron","fag","faggot","cocksucker"]
+punctuation = ['?']
+
 
 # This function takes in a list of raw JSON data and returns
 # the X and Y matricies used in linear regression
-def buildMatricies(raw_data, include_length,include_num_sentences,number_of_frequent_words,include_hyperlinks,include_wordsentence_ratio,include_swear_ratio):
+def buildMatricies(raw_data, include_length,include_num_sentences,number, include_hyperlinks,include_wordsentence_ratio,include_swear_ratio,include_puncs):
     # Build Y first since it is just a vector containing popularity scores
     y_list = list(map(lambda data_point: data_point["popularity_score"], raw_data))
 
@@ -30,16 +31,18 @@ def buildMatricies(raw_data, include_length,include_num_sentences,number_of_freq
         x_example_features.append(data_point["children"])
         x_example_features.append(data_point["controversiality"])
         x_example_features.append(int(data_point["is_root"]))
+        #x_example_features.append(data_point["children"]*data_point["children"]) # add this feature to improve model!!
 
         # Obtain word count vector
         word_count_vector = getWordCountVector(data_point["text"])
 
         #Place the counts for each word as an additional feature in the example JOSH'S EDIT FOR TESTING
+        temp = number
         for count in word_count_vector:
-            if number_of_frequent_words<1:
+            if temp<1:
                 break
             x_example_features.append(count)
-            number_of_frequent_words=-1
+            temp-=1
 
 
         # Add if includes hyperlink
@@ -56,6 +59,7 @@ def buildMatricies(raw_data, include_length,include_num_sentences,number_of_freq
             x_example_features.append(len(data_point["text"])/(1+len(sentences)))
 
 
+
         # Add the length of the comment if requested
         if include_length:
             x_example_features.append(len(data_point["text"]))
@@ -63,11 +67,16 @@ def buildMatricies(raw_data, include_length,include_num_sentences,number_of_freq
         # include number of swear words ratio
         if include_swear_ratio:
             swears = 0
-            for i in swears:
-                swears=+data_point["text"].count(i)
+            for i in swear_words:
+                swears+=data_point["text"].count(i)
             x_example_features.append(swears/len(data_point["text"]))
 
-        # include number of
+        # include number of punctuations
+        if include_puncs:
+            puncs = 0
+            for i in punctuation:
+                puncs+=data_point["text"].count(i)
+            x_example_features.append(puncs/len(data_point["text"]))
 
 
 
