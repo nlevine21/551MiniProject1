@@ -36,11 +36,7 @@ Yval = np.asarray([Yval]).T
 myLinReg = LinearRegression(Xtrain, Ytrain)
 w = myLinReg.exact_solution()
 
-    # print("a",len(Xtrain),"b",w,"c",Ytrain.shape,"d",Xtrain.shape)
 w1 = w.copy() #josh
-    # plt.figure()
-    # plt.plot([Xtest[i][0] for i in range(1000)],[Ytest[i] for i in range(1000)], 'ro')
-    # plt.show()
 
 # evaluate closed form on training set using mean square difference, and absolute difference
 Ytrain_pred = np.matmul(Xtrain, w)

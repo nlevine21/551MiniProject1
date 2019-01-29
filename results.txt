@@ -85,7 +85,7 @@ TASK 3
 
 
 
-        Q4 our final result gives us an MSE of 1.259819704497742 and a MAE of 0.7150770008235066
+
 
 
 

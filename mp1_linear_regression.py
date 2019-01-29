@@ -48,6 +48,5 @@ class LinearRegression:
             if np.linalg.norm(w - temp) < tol:
                 conv_flag = 1
                 break
-        conv_flag = np.linalg.norm(w - temp) #JOSH'S EDIT
         grad_norms = grad_norms[grad_norms != -1.]
         return w, grad_norms, conv_flag

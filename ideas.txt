@@ -10,7 +10,7 @@ Discussion: what makes a reddit comment popular?
        funny, witty clever, smart, it is relatable; it is exactly how you feel about the post or comment you're replying to.
 
 idea: Perhaps some words evoke a sense of distaste and therefore make a comment less popular, and some words do the exact opposite.
-    misspelled words and poorly
+    misspelled and poorly written comments are less likely to be popular
 
 side note: how is popularity measured?
     for one it could be just measured by the # of upvotes. However it may have been made (intentionally) arbitrary
