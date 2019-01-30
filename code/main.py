@@ -122,16 +122,17 @@ print("Run Experiment 1\n")
 # CALCULATE AVERAGE RUNTIME OF ALGORITHMS (only using the three non text features)
 
 # calculate average runtime of closed form solution over 100 trials
-avg_runtime = 0
+avg_runtime = 0;
+num_runs=100;
 matrices = matrix_builder((include_length,include_num_sentences,include_hyperlink,include_wordsentence_ratio,include_swear_ratio,include_puncs, include_children_squared),0)
 Xtrain, Ytrain, Xval, Yval, Xtest, Ytest = matrices
 myLinReg = LinearRegression(Xtrain, Ytrain)
-for i in range(100):
+for i in range(num_runs):
     start = time.time()
     w = myLinReg.exact_solution()
     end = time.time()
     avg_runtime += (end-start)
-print("average time for exact solution is: ",avg_runtime/100)
+print("Avg runtime, exact sln, over {} runs: {} seconds".format(num_runs, avg_runtime/num_runs))
 
 # calculate average run time of gradient descent over 100 trials
 
