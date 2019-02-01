@@ -223,7 +223,6 @@ for i in range(7):
     if MSE_validation_list[i]<MSE_validation_list[7]:
         print ('Additional Feature {} improved the model'.format(
             additional_feature_dict[str(i)]))
-        print(MSE_validation_list[7]-MSE_validation_list[i])
         boolean_arr[i] = True
 
 #Build the X and Y matricies for the best model
@@ -261,7 +260,7 @@ print(
         MAE,MSE))
 
 print(
-    'Best exact solution evaluated on validation data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(
+    'Best exact solution evaluated on test data. \n Mean Absolute Error: {}\n Mean Square Error: {} \n'.format(
         MAEz,MSEz))
 
 
