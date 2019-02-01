@@ -30,7 +30,7 @@ def preprocessText(data):
     sorted_word_counts = sorted(word_counts.items(), key=lambda a: a[1], reverse=True)
 
     # Only keep the 160 most common words
-    sorted_word_counts = sorted_word_counts[:460]
+    sorted_word_counts = sorted_word_counts[:160]
 
     # Write the 160 most common words to words.txt
     with open('words.txt', 'w') as fout:
