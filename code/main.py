@@ -34,6 +34,7 @@ training_data = data[:10000]
 validation_data = data[10000:11000]
 test_data = data[11000:]
 
+# input: boolean tuple represents which new features to include.
 def matrix_builder(boolean_tuple,words):
     include_length, include_num_sentences, include_hyperlink, include_wordsentence_ratio,include_swear_ratio,include_puncs, include_children_squared = boolean_tuple
     number_of_top_words = words
@@ -172,7 +173,6 @@ matrices_160 = matrix_builder((include_length,include_num_sentences,include_hype
 test_exact(matrices_160) # includes 160 word features
 
 
-
 # Q3
 print("Run Experiment 3")
 print ("Testing each additional feature to see whehter it improves the model")
@@ -223,6 +223,7 @@ for i in range(7):
     if MSE_validation_list[i]<MSE_validation_list[7]:
         print ('Additional Feature {} improved the model'.format(
             additional_feature_dict[str(i)]))
+        print(MSE_validation_list[7]-MSE_validation_list[i])
         boolean_arr[i] = True
 
 #Build the X and Y matricies for the best model
@@ -296,22 +297,13 @@ def generate_graph_images():
         MSE_validation.append(MSE)
         MAE_validation.append(MAE)
 
-
     plt.figure()
     plt.plot(MSE_training[:])
-    #plt.plot(MAE_training[:])
-    plt.title('MSE of model vs # of top words used in model. Using training data')
-    #plt.legend(['MSE', 'MAE',], loc='upper left')
-    plt.show()
-    savefig('foo.png')
-
-    plt.figure()
     plt.plot(MSE_validation[:])
-    #plt.plot(MAE_validation[:])
-    plt.title('MSE of model vs # of top words used in model. Using validation data')
-    #plt.legend(['MSE', 'MAE',], loc='upper left')
+    plt.legend(['Training set', 'Validation set'], loc='upper right')
+    plt.xlabel('Number of top words used in model training')
+    plt.ylabel('Mean Square Error (MSE)')
     plt.show()
-    savefig('foo2.png')
 
     #graph showing runtime vs amount of data
     runtimes = []

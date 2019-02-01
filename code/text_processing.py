@@ -14,6 +14,9 @@ def preprocessText(data):
     # Flatten our 2d list into a regular list of words
     word_list = [word for comment in word_list for word in comment]
 
+
+    word_list = trimmer(word_list)
+
     # Obtain a list of all unique words
     unique_word_list = set(word_list)
 
@@ -24,10 +27,10 @@ def preprocessText(data):
         word_counts[unique_word] = word_list.count(unique_word)
 
     # Sort the most common words in descending order
-    sorted_word_counts = sorted(word_counts.iteritems(), key=lambda k, v: (v, k), reverse=True)
+    sorted_word_counts = sorted(word_counts.items(), key=lambda a: a[1], reverse=True)
 
     # Only keep the 160 most common words
-    sorted_word_counts = sorted_word_counts[:160]
+    sorted_word_counts = sorted_word_counts[:460]
 
     # Write the 160 most common words to words.txt
     with open('words.txt', 'w') as fout:
@@ -48,6 +51,7 @@ def getWordCountVector(comment):
     # Build a list with each word in the comment
     comment = comment.lower()
     words_in_comment = comment.split()
+    words_in_comment = trimmer(words_in_comment)
 
     # Build a vector representing the counts for each of the 160 most common words in each comment
     word_count_vector = []
@@ -55,3 +59,16 @@ def getWordCountVector(comment):
         word_count_vector.append(words_in_comment.count(word))
 
     return word_count_vector
+
+# get rid of any . , ? ! : ; " ' at end or beginning of every word in the list
+def trimmer(the_list):
+    def funk(word):
+        if len(word)==1:
+            return word
+        if word.endswith(('.', ',', '?', '!', ';', ':', '(', ')', '"', "'", '/', '*')):
+            word = word[:-1]
+        if word.startswith(('.', ',', '?', '!', ';', ':', '(', ')', '"', "'", '/', '*')):
+            word = word[1:]
+        return word
+
+    return list(filter(lambda x: not(x=='' or x==' ') ,list(map(funk, the_list))))
